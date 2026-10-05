@@ -1,0 +1,19 @@
+# Zmienne konfiguracji
+CXX = clang++
+CXXFLAGS = -std=c++17 -Wall -Wextra -g -fsanitize=address
+TARGET = app
+SRC = main.cpp
+
+# Domyślne zadanie (wywoływane po wpisaniu samo 'make')
+all: $(TARGET)
+
+$(TARGET): $(SRC)
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET)
+
+# Uruchomienie programu
+run: $(TARGET)
+	./$(TARGET)
+
+# Czyszczenie plików wykonywalnych
+clean:
+	rm -f $(TARGET)

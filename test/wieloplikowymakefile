@@ -1,0 +1,28 @@
+CXX = clang++
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -g -fsanitize=address
+
+# Nazwa pliku wynikowego
+TARGET = program
+
+# Automatyczne znalezienie wszystkich plików .cpp
+SRCS = $(wildcard *.cpp)
+# Zamiana rozszerzeń .cpp na .o dla plików obiektowych
+OBJS = $(SRCS:.cpp=.o)
+
+all: $(TARGET)
+
+# Linkowanie plików obiektowych w plik wykonywalny
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+
+# Kompilacja każdego pliku .cpp do .o
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+run: $(TARGET)
+	./$(TARGET)
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+.PHONY: all run clean

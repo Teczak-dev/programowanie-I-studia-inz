@@ -1,0 +1,38 @@
+# Kompilator i flagi
+CXX = clang++
+# Flaga -Iinclude informuje kompilator, gdzie szukać plików .h / .hpp
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -g -fsanitize=address -Iinclude
+
+# Nazwa pliku wykonywalnego
+TARGET = program
+
+# Folder na wygenerowane pliki obiektowe (.o), żeby nie śmiecić w src/
+OBJ_DIR = build
+
+# 1. Automatyczne znalezienie WSZYSTKICH plików .cpp w src/ i jego podfolderach
+SRCS = $(shell find src -type f -name "*.cpp")
+
+# 2. Zamiana ścieżki src/plik.cpp na build/src/plik.o
+OBJS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SRCS))
+
+# Domyślny cel
+all: $(TARGET)
+
+# Linkowanie plików obiektowych w jeden plik wykonywalny
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+
+# Kompilacja każdego pliku .cpp z zachowaniem struktury katalogów w build/
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Uruchomienie programu
+run: $(TARGET)
+	./$(TARGET) $(ARGS)
+
+# Czyszczenie katalogu kompilacji i pliku wykonywalnego
+clean:
+	rm -rf $(OBJ_DIR) $(TARGET)
+
+.PHONY: all run clean
