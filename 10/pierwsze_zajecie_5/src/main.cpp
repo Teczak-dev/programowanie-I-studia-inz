@@ -6,12 +6,16 @@
 #include <windows.h>
 #endif
 
+std::string pobierzWartosc(const std::string &komunikat) {
+  std::string wartosc;
+  std::cout << komunikat;
+  std::cin >> wartosc;
+  return wartosc;
+}
+
 void zadanie1() {
-  double a, b;
-  std::cout << "Podaj a: ";
-  std::cin >> a;
-  std::cout << "Podaj b: ";
-  std::cin >> b;
+  double a = std::stod(pobierzWartosc("Podaj a: "));
+  double b = std::stod(pobierzWartosc("Podaj b: "));
   std::cout << std::fixed << std::setprecision(3);
   std::cout << a << " + " << b << " = " << (a + b) << "\n";
   std::cout << a << " - " << b << " = " << (a - b) << "\n";
@@ -44,34 +48,24 @@ void zadanie2() {
 }
 
 void zadanie3() {
-  double xA, yA, xB, yB;
-  std::cout << "Podaj xA: ";
-  std::cin >> xA;
-  std::cout << "Podaj yA: ";
-  std::cin >> yA;
-  std::cout << "Podaj xB: ";
-  std::cin >> xB;
-  std::cout << "Podaj yB: ";
-  std::cin >> yB;
+  double xA = std::stod(pobierzWartosc("Podaj xA: "));
+  double yA = std::stod(pobierzWartosc("Podaj yA: "));
+  double xB = std::stod(pobierzWartosc("Podaj xB: "));
+  double yB = std::stod(pobierzWartosc("Podaj yB: "));
 
   double a = (yB - yA) / (xB - xA);
-  double b = yA - a * xA;
+  double b = yA - (a * xA);
 
   std::cout << "Rownanie prostej: y = " << a << "x + " << b << "\n";
 }
 
 void zadanie4() {
-  double a, b, c, x;
   std::cout << "*******************\n";
-  std::cout << "Podaj a: ";
-  std::cin >> a;
-  std::cout << "Podaj b: ";
-  std::cin >> b;
-  std::cout << "Podaj c: ";
-  std::cin >> c;
+  double a = std::stod(pobierzWartosc("Podaj a: "));
+  double b = std::stod(pobierzWartosc("Podaj b: "));
+  double c = std::stod(pobierzWartosc("Podaj c: "));
   std::cout << "*******************\n";
-  std::cout << "Podaj x: ";
-  std::cin >> x;
+  double x = std::stod(pobierzWartosc("Podaj x: "));
   std::cout << "*******************\n";
 
   std::cout << "f(x) = " << a << "x^2 + " << b << "x + " << c << "\n";
@@ -83,14 +77,14 @@ void zadanie4() {
 }
 
 void zadanie5() {
-  int rokUrodzenia, miesiacUrodzenia, dzienUrodzenia;
-  int rokDzisiejszy, miesiacDzisiejszy, dzienDzisiejszy;
+  int rokUrodzenia = std::stoi(pobierzWartosc("Podaj rok urodzenia: "));
+  int miesiacUrodzenia = std::stoi(pobierzWartosc("Podaj miesiac urodzenia: "));
+  int dzienUrodzenia = std::stoi(pobierzWartosc("Podaj dzien urodzenia: "));
 
-  std::cout << "Podaj date urodzenia (rok miesiac dzien): ";
-  std::cin >> rokUrodzenia >> miesiacUrodzenia >> dzienUrodzenia;
-
-  std::cout << "Podaj dzisiejsza date (rok miesiac dzien): ";
-  std::cin >> rokDzisiejszy >> miesiacDzisiejszy >> dzienDzisiejszy;
+  int rokDzisiejszy = std::stoi(pobierzWartosc("Podaj dzisiejszy rok: "));
+  int miesiacDzisiejszy =
+      std::stoi(pobierzWartosc("Podaj dzisiejszy miesiac: "));
+  int dzienDzisiejszy = std::stoi(pobierzWartosc("Podaj dzisiejszy dzien: "));
 
   int roznicaDni = (rokDzisiejszy - rokUrodzenia) * 365 +
                    (miesiacDzisiejszy - miesiacUrodzenia) * 30 +
@@ -102,27 +96,21 @@ void zadanie5() {
 }
 
 void zadanie6() {
-  int total_seconds;
-  std::cout << "Podaj liczbe sekund: ";
-  std::cin >> total_seconds;
+  int ciagSekund = std::stoi(pobierzWartosc("Podaj liczbe sekund: "));
 
-  int hours = total_seconds / 3600;
-  int remainder = total_seconds % 3600;
-  int minutes = remainder / 60;
-  int seconds = remainder % 60;
+  int godziny = ciagSekund / 3600;
+  int resztaSekund = ciagSekund % 3600;
+  int minuty = resztaSekund / 60;
+  int sekundy = resztaSekund % 60;
 
-  std::cout << total_seconds << " sekund = " << hours << ":" << minutes << ":"
-            << seconds << "\n";
+  std::cout << ciagSekund << " sekund = " << godziny << ":" << minuty << ":"
+            << sekundy << "\n";
 }
 
 void zadanie7() {
-  double a, b, c;
-  std::cout << "Podaj bok a: ";
-  std::cin >> a;
-  std::cout << "Podaj bok b: ";
-  std::cin >> b;
-  std::cout << "Podaj bok c: ";
-  std::cin >> c;
+  double a = std::stod(pobierzWartosc("Podaj bok a: "));
+  double b = std::stod(pobierzWartosc("Podaj bok b: "));
+  double c = std::stod(pobierzWartosc("Podaj bok c: "));
 
   double p = (a + b + c) / 2.0;
   double area = std::sqrt(p * (p - a) * (p - b) * (p - c));
@@ -131,33 +119,24 @@ void zadanie7() {
 }
 
 int main() {
-  int wybor;
-  std::cout << "Wybierz zadanie (1-7): ";
-  std::cin >> wybor;
-  switch (wybor) {
-  case 1:
-    zadanie1();
-    break;
-  case 2:
-    zadanie2();
-    break;
-  case 3:
-    zadanie3();
-    break;
-  case 4:
-    zadanie4();
-    break;
-  case 5:
-    zadanie5();
-    break;
-  case 6:
-    zadanie6();
-    break;
-  case 7:
-    zadanie7();
-    break;
-  default:
+  int wybor = std::stoi(pobierzWartosc("Wybierz zadanie (1-7): "));
+  if (wybor < 1 || wybor > 7) {
     std::cout << "Nieprawidlowy wybor." << std::endl;
+  } else {
+    if (wybor == 1)
+      zadanie1();
+    else if (wybor == 2)
+      zadanie2();
+    else if (wybor == 3)
+      zadanie3();
+    else if (wybor == 4)
+      zadanie4();
+    else if (wybor == 5)
+      zadanie5();
+    else if (wybor == 6)
+      zadanie6();
+    else if (wybor == 7)
+      zadanie7();
   }
   return 0;
 }
