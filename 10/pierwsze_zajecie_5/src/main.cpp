@@ -6,6 +6,12 @@
 #include <windows.h>
 #endif
 
+void pauza(const std::string& komunikat = "Nacisnij Enter, aby kontynuowac...") {
+  std::cout << komunikat;
+  std::cin.ignore(10000, '\n');
+  std::cin.get();
+}
+
 std::string pobierzWartosc(const std::string &komunikat) {
   std::string wartosc;
   std::cout << komunikat;
@@ -138,5 +144,6 @@ int main() {
     else if (wybor == 7)
       zadanie7();
   }
+  pauza();
   return 0;
 }
