@@ -7,32 +7,15 @@ std::string pobierzWartosc(const std::string &komunikat) {
   std::cin >> wartosc;
   return wartosc;
 }
-std::vector<int> pobierzLiczby(int liczba, int zasieg) {
-  std::vector<int> liczbyPodzielne;
-  for (int i = 0; i <= zasieg; i++) {
-    if (i % liczba == 0)
-      liczbyPodzielne.push_back(i);
-  }
-  return liczbyPodzielne;
-}
 
-void zadanie2() {
-  int zasieg = 100;
-  int liczba = 3;
-  std::cout << "0)" << std::cout.width(4) << "0\n";
-  for (int i = 1; i <= zasieg; i += 10) {
-    std::cout << i / 10 << ")";
-    for (int j = i; j <= i + 1; j++) {
-      if (j % liczba == 0) {
-        std::cout.width(4);
-        std::cout << j;
-      }
+bool liczbaDoskonala(int liczba) {
+  int suma = 0;
+  for (int i = 1; i < liczba; i++) {
+    if (liczba % i == 0) {
+      suma += i;
     }
-    std::cout << std::endl;
   }
-  // ma byc
-  // 0)   0
-  // 1)   3   6   9
+  return suma == liczba;
 }
 
 int kolejnyWyrazC(int cN) {
@@ -42,23 +25,70 @@ int kolejnyWyrazC(int cN) {
     return (3 * cN) + 1;
 }
 
+void zadanie1() {
+  double a = std::stod(pobierzWartosc("Podaj a: "));
+  double b = std::stod(pobierzWartosc("Podaj b: "));
+  while (a > b) {
+    std::cout << "a musi byc mniejsze od b\n";
+    a = std::stod(pobierzWartosc("Podaj a: "));
+    b = std::stod(pobierzWartosc("Podaj b: "));
+  }
+  int n = std::stoi(pobierzWartosc("Podaj n: "));
+  while (n < 2) {
+    std::cout << "n musi byc wieksze od 2\n";
+    n = std::stoi(pobierzWartosc("Podaj n: "));
+  }
+  double krok = (b - a) / n;
+  double liczba = a;
+
+  while (liczba <= b) {
+    std::cout << liczba << " ";
+    liczba += krok;
+  }
+}
+
+void zadanie2() {
+  int zasieg = 100;
+  int liczba = 3;
+  std::cout << "0)   0\n";
+
+  int numerWiersza = 1;
+
+  for (int i = 1; i <= zasieg; i += 10) {
+    std::cout << numerWiersza << ")";
+    numerWiersza++;
+
+    int koniecPrzedzialu = i + 9;
+    if (koniecPrzedzialu > zasieg) {
+      koniecPrzedzialu = zasieg;
+    }
+
+    for (int j = i; j <= koniecPrzedzialu; j++) {
+      if (j % liczba == 0) {
+        std::cout.width(4);
+        std::cout << j;
+      }
+    }
+    std::cout << "\n";
+  }
+}
+
 void zadanie3() {
-  // dodatnia calkowita dowolna C0
-  // np. 6 kolejny w zaleznosci albo
   int c = std::stoi(pobierzWartosc("Podaj liczbę całkowitą: "));
-  while (c < 0) {
-    std::cout << "Podaj cos dodatniego calkowitego\n";
+  while (c == 0) {
+    std::cout
+        << "Zero nie jest dozwolone w ciagu Collatza! Podaj inna liczbe:\n";
     c = std::stoi(pobierzWartosc("Podaj liczbę całkowitą: "));
   }
-  int kroki = 0;
+  int kroki = 1;
   while (kroki < 1000) {
     std::cout << c << " -> ";
     c = kolejnyWyrazC(c);
-    if (c == 1) {
+    kroki++;
+    if (c == 1 || c == -1) {
       std::cout << c;
       break;
     }
-    kroki++;
   }
   std::cout << "\n";
   if (kroki >= 1000)
@@ -86,17 +116,7 @@ void zadanie4() {
     std::cout << "\nLiczba nie jest doskonala";
 }
 
-bool liczbaDoskonala(int liczba) {
-  int suma = 0;
-  for (int i = 1; i < liczba; i++) {
-    if (liczba % i == 0) {
-      suma += i;
-    }
-  }
-  return suma == liczba;
-}
-
-void zad4Big() {
+void zadanie4Rozszerzone() {
   int limit = std::stoi(pobierzWartosc("Podaj limit: "));
   for (int i = 2; i <= limit; i++) {
     if (liczbaDoskonala(i)) {
@@ -105,30 +125,21 @@ void zad4Big() {
   }
 }
 
-void zadanie1() {
-  double a = std::stod(pobierzWartosc("Podaj a: "));
-  double b = std::stod(pobierzWartosc("Podaj b: "));
-  while (a > b) {
-    std::cout << "a musi byc mniejsze od b\n";
-    a = std::stod(pobierzWartosc("Podaj a: "));
-    b = std::stod(pobierzWartosc("Podaj b: "));
-  }
-  int n = std::stoi(pobierzWartosc("Podaj n: "));
-  while (n < 2) {
-    std::cout << "n musi byc wieksze od 2\n";
-    n = std::stoi(pobierzWartosc("Podaj n: "));
-  }
-  double krok = (b - a) / n;
-  double liczba = a;
-
-  while (liczba <= b) {
-    std::cout << liczba << " ";
-    liczba += krok;
-  }
-}
-
 int main() {
-  zadanie4();
-  zad4Big();
+  int wybor = std::stoi(
+      pobierzWartosc("Wybierz zadanie (1, 2,3, 4 (rozszenone: 41): "));
+  if (wybor == 1) {
+    zadanie1();
+  } else if (wybor == 2) {
+    zadanie2();
+  } else if (wybor == 3) {
+    zadanie3();
+  } else if (wybor == 4) {
+    zadanie4();
+  } else if (wybor == 41) {
+    zadanie4Rozszerzone();
+  } else {
+    std::cout << "Niepoprawny wybor";
+  }
   return 0;
 }
