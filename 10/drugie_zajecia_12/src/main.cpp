@@ -126,17 +126,17 @@ void zadanie4Rozszerzone() {
 }
 
 int main() {
-  int wybor = std::stoi(
-      pobierzWartosc("Wybierz zadanie (1, 2,3, 4 (rozszenone: 41): "));
-  if (wybor == 1) {
+  std::string wybor =
+      pobierzWartosc("Wybierz zadanie (1, 2, 3, 4 (rozszenone: 4-1): ");
+  if (wybor == "1") {
     zadanie1();
-  } else if (wybor == 2) {
+  } else if (wybor == "2") {
     zadanie2();
-  } else if (wybor == 3) {
+  } else if (wybor == "3") {
     zadanie3();
-  } else if (wybor == 4) {
+  } else if (wybor == "4") {
     zadanie4();
-  } else if (wybor == 41) {
+  } else if (wybor == "4-1") {
     zadanie4Rozszerzone();
   } else {
     std::cout << "Niepoprawny wybor";
