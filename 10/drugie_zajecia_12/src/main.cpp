@@ -1,3 +1,5 @@
+#include "domowe.hpp"
+#include <iomanip>
 #include <iostream>
 #include <ostream>
 
@@ -25,7 +27,8 @@ int kolejnyWyrazC(int cN) {
     return (3 * cN) + 1;
 }
 
-void zadanie1() {
+// zadanie 2 z zajec
+void zadanie2() {
   double a = std::stod(pobierzWartosc("Podaj a: "));
   double b = std::stod(pobierzWartosc("Podaj b: "));
   while (a > b) {
@@ -47,33 +50,63 @@ void zadanie1() {
   }
 }
 
-void zadanie2() {
-  int zasieg = 100;
-  int liczba = 3;
-  std::cout << "0)   0\n";
+// zadanie drugie z zajec rozbudowane o polecenie rozszerzenia
+void zadanie3() {
+  int poczatekPrzedzialu =
+      std::stoi(pobierzWartosc("Podaj poczatek przedzialu: "));
+  int koniecPrzedzialu = std::stoi(pobierzWartosc("Podaj koniec przedzialu: "));
+  while (poczatekPrzedzialu < 0 || koniecPrzedzialu < 0 ||
+         poczatekPrzedzialu > koniecPrzedzialu) {
+    if (poczatekPrzedzialu < 0 || koniecPrzedzialu < 0) {
+      std::cout << "Przedzial musi skladac sie z liczb nieujemnych\n";
+    } else {
+      std::cout << "Poczatek przedzialu musi byc mniejszy lub rowny koncowi\n";
+    }
+    poczatekPrzedzialu =
+        std::stoi(pobierzWartosc("Podaj poczatek przedzialu: "));
+    koniecPrzedzialu = std::stoi(pobierzWartosc("Podaj koniec przedzialu: "));
+  }
+  int dzielnik = std::stoi(pobierzWartosc("Podaj dzielnik: "));
+  while (dzielnik == 0) {
+    std::cout << "Dzielnik nie moze byc rowny zero\n";
+    dzielnik = std::stoi(pobierzWartosc("Podaj dzielnik: "));
+  }
 
-  int numerWiersza = 1;
+  int szerokoscNumeruWiersza = 1;
+  int ostatniNumerWiersza = (koniecPrzedzialu - 1) / 10 + 1;
+  while (ostatniNumerWiersza >= 10) {
+    szerokoscNumeruWiersza++;
+    ostatniNumerWiersza /= 10;
+  }
 
-  for (int i = 1; i <= zasieg; i += 10) {
-    std::cout << numerWiersza << ")";
-    numerWiersza++;
+  std::cout << std::setw(szerokoscNumeruWiersza) << 0 << ")   0\n";
 
-    int koniecPrzedzialu = i + 9;
-    if (koniecPrzedzialu > zasieg) {
-      koniecPrzedzialu = zasieg;
+  int poczatekWiersza = 1;
+  if (poczatekPrzedzialu > 1) {
+    poczatekWiersza = ((poczatekPrzedzialu - 1) / 10) * 10 + 1;
+  }
+
+  while (poczatekWiersza <= koniecPrzedzialu) {
+    int numerWiersza = (poczatekWiersza - 1) / 10 + 1;
+    std::cout << std::setw(szerokoscNumeruWiersza) << numerWiersza << ")";
+
+    int koniecWiersza = poczatekWiersza + 9;
+    if (koniecWiersza > koniecPrzedzialu) {
+      koniecWiersza = koniecPrzedzialu;
     }
 
-    for (int j = i; j <= koniecPrzedzialu; j++) {
-      if (j % liczba == 0) {
-        std::cout.width(4);
-        std::cout << j;
+    for (int liczba = poczatekWiersza; liczba <= koniecWiersza; liczba++) {
+      if (liczba >= poczatekPrzedzialu && liczba % dzielnik == 0) {
+        std::cout << std::setw(4) << liczba;
       }
     }
     std::cout << "\n";
+    poczatekWiersza += 10;
   }
 }
 
-void zadanie3() {
+// zadanie 3 z zajec
+void zadanie7() {
   int c = std::stoi(pobierzWartosc("Podaj liczbę całkowitą: "));
   while (c == 0) {
     std::cout
@@ -97,7 +130,9 @@ void zadanie3() {
     std::cout << "Wykonano w " << kroki << " krokach";
 }
 
-void zadanie4() {
+// LICZBA DOSKONALA
+// zadanie 4 z zajec
+void zadanie8() {
   int liczba = std::stoi(pobierzWartosc("Podaj liczbę naturalna: "));
   while (liczba < 0) {
     std::cout << "Podaj cos dodatniego calkowitego\n";
@@ -115,8 +150,9 @@ void zadanie4() {
   else
     std::cout << "\nLiczba nie jest doskonala";
 }
-
-void zadanie4Rozszerzone() {
+// LICZBY DOSKONALE z przedzialu [2, limit]
+// zadanie 4 rozszerzenie z zajec
+void zadanie8Rozszerzone() {
   int limit = std::stoi(pobierzWartosc("Podaj limit: "));
   for (int i = 2; i <= limit; i++) {
     if (liczbaDoskonala(i)) {
@@ -127,19 +163,38 @@ void zadanie4Rozszerzone() {
 
 int main() {
   std::string wybor =
-      pobierzWartosc("Wybierz zadanie (1, 2, 3, 4 (rozszenone: 4-1): ");
-  if (wybor == "1") {
+      pobierzWartosc("Wybierz zadanie:\n1 - Wspolczynniki funkcji kwadratowej\n"
+                     "2 - Dzielenie [a,b] na n rownych czesci\n"
+                     "3 - Wypisywanie liczb podzielnych w przedziale [a, b] "
+                     "przez podany dzielnik (a >= 0)\n"
+                     "4 - Odwrocony polowkowy trojkat\n"
+                     "5 - Tabliczka mnozenia od 1 do 10\n"
+                     "6 - Czy zdam Programowanie I?\n"
+                     "7 - Hipoteza Collatza\n"
+                     "8 - Liczby doskonale, rozszenone: 8-roz\n"
+                     "9 - Trojkat Pascala \n: ");
+  if (wybor == "1")
     zadanie1();
-  } else if (wybor == "2") {
+  else if (wybor == "2")
     zadanie2();
-  } else if (wybor == "3") {
+  else if (wybor == "3")
     zadanie3();
-  } else if (wybor == "4") {
+  else if (wybor == "4")
     zadanie4();
-  } else if (wybor == "4-1") {
-    zadanie4Rozszerzone();
-  } else {
+  else if (wybor == "5")
+    zadanie5();
+  else if (wybor == "6")
+    zadanie6();
+  else if (wybor == "7")
+    zadanie7();
+  else if (wybor == "8")
+    zadanie8();
+  else if (wybor == "8-roz")
+    zadanie8Rozszerzone();
+  else if (wybor == "9")
+    zadanie9();
+  else
     std::cout << "Niepoprawny wybor";
-  }
+
   return 0;
 }
