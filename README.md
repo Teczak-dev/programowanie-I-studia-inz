@@ -2,6 +2,41 @@
 
 Repozytorium zawiera rozwiązania z laboratoriów z programowania w języku C++.
 Każdy projekt jest niezależnym podprojektem budowanym za pomocą [CMake](https://cmake.org/).
+Możesz sklonować całe repozytorium albo skopiować tylko wybrany katalog
+laboratorium — każdy projekt ma własną konfigurację i może być uruchamiany
+niezależnie.
+
+## Spis treści
+
+- [Szybki start dla osoby kopiującej repozytorium](#szybki-start-dla-osoby-kopiującej-repozytorium)
+- [Struktura repozytorium](#struktura-repozytorium)
+- [Wymagania](#wymagania)
+- [Uruchamianie w Visual Studio](#uruchamianie-w-visual-studio)
+- [Uruchamianie na macOS z terminala](#uruchamianie-na-macos-z-terminala)
+- [Praca z Neovim](#praca-z-neovim)
+- [Tworzenie nowego laboratorium](#tworzenie-nowego-laboratorium)
+- [Przydatne polecenia Git](#przydatne-polecenia-git)
+
+## Szybki start dla osoby kopiującej repozytorium
+
+Najprościej sklonować repozytorium, a następnie przejść do konkretnego
+laboratorium:
+
+```bash
+git clone <adres-repozytorium>
+cd programowanie/10/arkusz2
+```
+
+Jeśli repozytorium zostało pobrane jako archiwum ZIP, rozpakuj je i wykonuj
+polecenia od katalogu głównego projektu. Nie kopiuj katalogu `build/` ani
+plików `.idea/`, `.vscode/` i `.DS_Store` — są to pliki lokalne danego
+komputera. Wystarczą pliki `CMakeLists.txt`, `run.sh` oraz katalogi `src/`
+i `include/` (jeśli dany projekt go posiada).
+
+Do skopiowania pojedynczego laboratorium wybierz cały jego katalog, np.
+`10/arkusz2/`, zachowując jego strukturę. Nie uruchamiaj `CMakeLists.txt`
+z katalogu głównego repozytorium — konfiguracja znajduje się wewnątrz
+każdego laboratorium.
 
 ## Struktura repozytorium
 
@@ -45,11 +80,11 @@ repozytorium.
 
 Visual Studio 2022 potrafi otwierać projekty CMake bez pliku `.sln`.
 
-1. Sklonuj repozytorium i otwórz w Visual Studio katalog wybranego projektu,
-   np. `10/arkusz2`.
-2. Wybierz konfigurację `Debug` albo `Release` oraz właściwy cel `program`.
-3. Visual Studio automatycznie odczyta `CMakeLists.txt` i skonfiguruje projekt.
-4. Uruchom program przyciskiem **Run** lub klawiszem `F5` (debugowanie) albo
+1. Sklonuj repozytorium lub rozpakuj pobrane archiwum.
+2. Otwórz w Visual Studio katalog wybranego projektu, np. `10/arkusz2`.
+3. Wybierz konfigurację `Debug` albo `Release` oraz właściwy cel `program`.
+4. Visual Studio automatycznie odczyta `CMakeLists.txt` i skonfiguruje projekt.
+5. Uruchom program przyciskiem **Run** lub klawiszem `F5` (debugowanie) albo
    `Ctrl+F5` (uruchomienie bez debugera).
 
 W systemie Windows może być potrzebne zainstalowanie workloadu **Desktop
@@ -67,7 +102,8 @@ xcode-select --install
 brew install cmake
 ```
 
-Następnie przejdź do wybranego projektu:
+Następnie przejdź do wybranego projektu. Poniższa ścieżka jest przykładem —
+zamień `10/arkusz2` na katalog laboratorium, które chcesz uruchomić:
 
 ```bash
 cd 10/arkusz2
@@ -125,14 +161,14 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 Można skopiować gotowy szablon:
 
 ```bash
-Templates/cpp_lab/new-lab.sh ~/Dane/Programowanie/studiaInzSem1/programowanie/Lab5
-cd ~/Dane/Programowanie/studiaInzSem1/programowanie/Lab5
+./Templates/cpp_lab/new-lab.sh ../Lab5
+cd ../Lab5
 ./run.sh
 ```
 
 Szablon zawiera `CMakeLists.txt`, `run.sh` i katalog `src/` z plikiem
-`main.cpp`. Jeśli ścieżka do repozytorium jest inna niż pokazana powyżej,
-edytuj zmienną `TEMPLATE_DIR` w `Templates/cpp_lab/new-lab.sh`.
+`main.cpp`. Skrypt działa niezależnie od lokalizacji, w której sklonowano
+repozytorium, i tworzy katalog docelowy, jeśli jeszcze nie istnieje.
 
 ## Przydatne polecenia Git
 
@@ -142,4 +178,3 @@ git add 10/arkusz2
 git commit -m "Opis zmian"
 git push
 ```
-

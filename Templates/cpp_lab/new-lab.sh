@@ -12,7 +12,8 @@ if [ -z "$1" ]; then
 fi
 
 TARGET_DIR="$1"
-TEMPLATE_DIR="/Users/mikolajsobczak/Dane/Programowanie/studiaInzSem1/programowanie/Templates/cpp_lab"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+TEMPLATE_DIR="$SCRIPT_DIR"
 
 echo "=== Tworzenie nowego projektu laboratorium ==="
 echo "Kopiowanie szablonu z: $TEMPLATE_DIR"
