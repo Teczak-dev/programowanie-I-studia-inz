@@ -416,8 +416,7 @@ void zadanie11() {
   const int srodek = n / 2;
   const long long najwiekszaWartosc = 1LL * n * n;
   int szerokosc = 1;
-  for (long long liczba = najwiekszaWartosc; liczba >= 10;
-       liczba /= 10) {
+  for (long long liczba = najwiekszaWartosc; liczba >= 10; liczba /= 10) {
     ++szerokosc;
   }
 
@@ -425,31 +424,26 @@ void zadanie11() {
     for (int kolumna = 0; kolumna < n; ++kolumna) {
       const int odSrodkaWiersz = wiersz - srodek;
       const int odSrodkaKolumna = kolumna - srodek;
-      const int warstwa =
-          (abs_val(odSrodkaWiersz) > abs_val(odSrodkaKolumna))
-              ? abs_val(odSrodkaWiersz)
-              : abs_val(odSrodkaKolumna);
+      const int warstwa = (abs_val(odSrodkaWiersz) > abs_val(odSrodkaKolumna))
+                              ? abs_val(odSrodkaWiersz)
+                              : abs_val(odSrodkaKolumna);
 
       long long wartosc = 1;
       if (warstwa > 0) {
         const long long poczatekWarstwy =
             1LL * (2 * warstwa - 1) * (2 * warstwa - 1) + 1;
 
-        if (odSrodkaKolumna == warstwa &&
-            odSrodkaWiersz < warstwa) {
-          wartosc = poczatekWarstwy + warstwa - 1 -
-                    odSrodkaWiersz;
-        } else if (odSrodkaWiersz == -warstwa &&
-                   odSrodkaKolumna < warstwa) {
-          wartosc = poczatekWarstwy + 2 * warstwa +
-                    warstwa - 1 - odSrodkaKolumna;
-        } else if (odSrodkaKolumna == -warstwa &&
-                   odSrodkaWiersz > -warstwa) {
-          wartosc = poczatekWarstwy + 4 * warstwa +
-                    odSrodkaWiersz + warstwa - 1;
+        if (odSrodkaKolumna == warstwa && odSrodkaWiersz < warstwa) {
+          wartosc = poczatekWarstwy + warstwa - 1 - odSrodkaWiersz;
+        } else if (odSrodkaWiersz == -warstwa && odSrodkaKolumna < warstwa) {
+          wartosc =
+              poczatekWarstwy + 2 * warstwa + warstwa - 1 - odSrodkaKolumna;
+        } else if (odSrodkaKolumna == -warstwa && odSrodkaWiersz > -warstwa) {
+          wartosc =
+              poczatekWarstwy + 4 * warstwa + odSrodkaWiersz + warstwa - 1;
         } else {
-          wartosc = poczatekWarstwy + 6 * warstwa +
-                    odSrodkaKolumna + warstwa - 1;
+          wartosc =
+              poczatekWarstwy + 6 * warstwa + odSrodkaKolumna + warstwa - 1;
         }
       }
 
@@ -459,8 +453,27 @@ void zadanie11() {
   }
 }
 
-void zadanie12() {}
-
+// Bankomat
+void zadanie12() {
+  int banknoty[5] = {200, 100, 50, 20, 10};
+  int wyplata[5] = {0, 0, 0, 0, 0}; // ilosc sztuk kazdego banknotu
+  int kwota, sumaBanknotow = 0;
+  std::cout << "Podaj kwotę w zl (wielokrotnosc 10): ";
+  std::cin >> kwota;
+  while (kwota % 10 != 0 || kwota <= 0) {
+    std::cout << "Niepoprawna kwota. Podaj kwotę w zl (wielokrotnosc 10): ";
+    std::cin >> kwota;
+  }
+  for (int i = 0; i < 5; i++) {
+    wyplata[i] = kwota / banknoty[i];
+    kwota %= banknoty[i];
+    sumaBanknotow += wyplata[i];
+  }
+  std::cout << "Minimalnie banknotow: " << sumaBanknotow << "\n";
+  for (int i = 0; i < 5; i++) {
+    std::cout << banknoty[i] << " zl: " << wyplata[i] << "\n";
+  }
+}
 int main() {
 
   std::vector<Zadanie> listaZadan = {
