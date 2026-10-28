@@ -1,6 +1,7 @@
 #include <cmath>
 #include <cstddef>
 #include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <random>
 
@@ -343,9 +344,120 @@ void zadanie9() {
   }
 }
 
-void zadanie10() {}
+void zadanie10() {
+  int rok, miesiac, dzienTygodnia, dniMiesiaca;
+  bool czyPrzestepny = false;
+  std::cout << "Rok, miesiac (1-12), dzien tygodnia (1-7): ";
+  std::cin >> rok >> miesiac >> dzienTygodnia;
+  if (rok % 4 == 0 && (rok % 100 != 0 || rok % 400 == 0)) {
+    czyPrzestepny = true;
+  }
+  switch (miesiac) {
+  case 1:
+    dniMiesiaca = 31;
+    break;
+  case 2:
+    dniMiesiaca = czyPrzestepny ? 29 : 28;
+    break;
+  case 3:
+    dniMiesiaca = 31;
+    break;
+  case 4:
+    dniMiesiaca = 30;
+    break;
+  case 5:
+    dniMiesiaca = 31;
+    break;
+  case 6:
+    dniMiesiaca = 30;
+    break;
+  case 7:
+    dniMiesiaca = 31;
+    break;
+  case 8:
+    dniMiesiaca = 31;
+    break;
+  case 9:
+    dniMiesiaca = 30;
+    break;
+  case 10:
+    dniMiesiaca = 31;
+    break;
+  case 11:
+    dniMiesiaca = 30;
+    break;
+  case 12:
+    dniMiesiaca = 31;
+    break;
+  }
 
-void zadanie11() {}
+  std::cout << " Pn Wt Śr Cz Pt So Nd\n";
+  for (int i = 1; i < dzienTygodnia; i++) {
+    std::cout << "   ";
+  }
+  for (int i = 1; i <= dniMiesiaca; i++) {
+    std::cout << (i < 10 ? " " : "") << i << " ";
+    if ((i + dzienTygodnia - 1) % 7 == 0) {
+      std::cout << "\n";
+    }
+  }
+}
+
+// do pomocy aby dzialac bez cmath
+int abs_val(int x) { return (x < 0) ? -x : x; }
+
+void zadanie11() {
+  int n = 0;
+  std::cout << "Podaj nieparzyste n (1..9): ";
+  while (!(std::cin >> n) || n < 1 || n > 9 || n % 2 == 0) {
+    std::cout << "Niepoprawna wartość! Podaj nieparzyste n z zakresu 1..9: ";
+  }
+
+  const int srodek = n / 2;
+  const long long najwiekszaWartosc = 1LL * n * n;
+  int szerokosc = 1;
+  for (long long liczba = najwiekszaWartosc; liczba >= 10;
+       liczba /= 10) {
+    ++szerokosc;
+  }
+
+  for (int wiersz = 0; wiersz < n; ++wiersz) {
+    for (int kolumna = 0; kolumna < n; ++kolumna) {
+      const int odSrodkaWiersz = wiersz - srodek;
+      const int odSrodkaKolumna = kolumna - srodek;
+      const int warstwa =
+          (abs_val(odSrodkaWiersz) > abs_val(odSrodkaKolumna))
+              ? abs_val(odSrodkaWiersz)
+              : abs_val(odSrodkaKolumna);
+
+      long long wartosc = 1;
+      if (warstwa > 0) {
+        const long long poczatekWarstwy =
+            1LL * (2 * warstwa - 1) * (2 * warstwa - 1) + 1;
+
+        if (odSrodkaKolumna == warstwa &&
+            odSrodkaWiersz < warstwa) {
+          wartosc = poczatekWarstwy + warstwa - 1 -
+                    odSrodkaWiersz;
+        } else if (odSrodkaWiersz == -warstwa &&
+                   odSrodkaKolumna < warstwa) {
+          wartosc = poczatekWarstwy + 2 * warstwa +
+                    warstwa - 1 - odSrodkaKolumna;
+        } else if (odSrodkaKolumna == -warstwa &&
+                   odSrodkaWiersz > -warstwa) {
+          wartosc = poczatekWarstwy + 4 * warstwa +
+                    odSrodkaWiersz + warstwa - 1;
+        } else {
+          wartosc = poczatekWarstwy + 6 * warstwa +
+                    odSrodkaKolumna + warstwa - 1;
+        }
+      }
+
+      std::cout << std::setw(szerokosc) << wartosc << " ";
+    }
+    std::cout << "\n";
+  }
+}
 
 void zadanie12() {}
 
