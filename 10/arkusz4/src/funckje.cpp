@@ -1,6 +1,8 @@
 #include "funkcje.hpp"
+#include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <random>
 
 int sumaCyfr(int n) {
   int suma = 0;
@@ -163,4 +165,59 @@ bool czyAutomorficzna(int n) {
     kwadrat /= 10;
   }
   return true;
+}
+
+// zadania 11-13
+double naRadiany(double stopnie) { return stopnie * PI / 180.0; }
+
+double pozycjaX(double v0, double rad, double t) {
+  return v0 * std::cos(rad) * t;
+}
+
+double pozycjaY(double v0, double rad, double t) {
+  return v0 * std::sin(rad) * t - (G * t * t) / 2.0;
+}
+
+double czasLotu(double v0, double rad) {
+  return (2.0 * v0 * std::sin(rad)) / G;
+}
+
+int losujRuch() {
+  static std::mt19937 generator(std::random_device{}());
+  std::uniform_int_distribution<int> distribution(1, 3);
+  return distribution(generator);
+}
+
+int wynikRundy(int gracz, int komputer) {
+  if (gracz == komputer) {
+    return 0;
+  } else if ((gracz == 1 && komputer == 3) || (gracz == 2 && komputer == 1) ||
+             (gracz == 3 && komputer == 2)) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+std::string ruchToString(int ruch) {
+  switch (ruch) {
+  case 1:
+    return "Kamien";
+  case 2:
+    return "Papier";
+  case 3:
+    return "Nozyce";
+  default:
+    return "Nieznany ruch";
+  }
+}
+void wynikHistorii(std::vector<runda> &r) {
+
+  std::cout << "  Gracz   |   Komputer    | Wynik\n";
+  std::cout << "-----------------------------------\n";
+  for (size_t i = 0; i < r.size(); i++) {
+    std::cout << "    " << r[i].gracz << "(" << ruchToString(r[i].gracz) << ")"
+              << "   |     " << r[i].komputer << "("
+              << ruchToString(r[i].komputer) << ")"
+              << "    |  " << r[i].wynik << "\n";
+  }
 }

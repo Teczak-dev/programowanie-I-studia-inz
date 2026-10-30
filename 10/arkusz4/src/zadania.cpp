@@ -1,5 +1,6 @@
 #include "zadania.hpp"
 #include "funkcje.hpp"
+#include <iomanip>
 #include <iostream>
 
 void zadanie1() {
@@ -168,8 +169,94 @@ void zadanie10() {
   }
 }
 
-void zadanie11() {}
+void zadanie11() {
+  double v0 = 0.0;
+  double alpha = 0.0;
 
-void zadanie12() {}
+  std::cout << "Podaj predkosc poczatkowa v0 (m/s): ";
+  while (!(std::cin >> v0) || v0 <= 0) {
+    std::cout << "Prędkość musi być większa od 0! Podaj v0 ponownie: ";
+  }
+
+  std::cout << "Podaj kat alpha (w stopniach, 0 < alpha < 90): ";
+  while (!(std::cin >> alpha) || alpha <= 0 || alpha >= 90) {
+    std::cout
+        << "Kąt musi mieścić się w przedziale (0, 90)! Podaj alpha ponownie: ";
+  }
+
+  double rad = naRadiany(alpha);
+
+  // Wartości lotu
+  double T = czasLotu(v0, rad);
+  double H =
+      (std::pow(v0 * std::sin(rad), 2)) / (2.0 * G); // Wysokość maksymalna
+  double R = pozycjaX(v0, rad, T);                   // Zasięg całkowity
+
+  std::cout << std::fixed << std::setprecision(3);
+  std::cout << "\nParametry lotu:\n";
+  std::cout << "  Czas lotu (T): " << T << " s\n";
+  std::cout << "  Maksymalna wysokosc (H): " << H << " m\n";
+  std::cout << "  Zasieg (R): " << R << " m\n\n";
+
+  std::cout << std::setw(8) << "t [s]" << std::setw(12) << "x(t) [m]"
+            << std::setw(12) << "y(t) [m]" << "\n";
+  std::cout << "------------------------------------\n";
+
+  double t = 0.0;
+  double dt = 0.1; // Krok czasowy co 0.1s
+
+  while (t < T) {
+    double x = pozycjaX(v0, rad, t);
+    double y = pozycjaY(v0, rad, t);
+
+    if (y < 0.0)
+      y = 0.0;
+
+    std::cout << std::setw(8) << t << std::setw(12) << x << std::setw(12) << y
+              << "\n";
+
+    t += dt;
+  }
+
+  if (std::abs((t - dt) - T) > 1e-5) {
+    double x_end = pozycjaX(v0, rad, T);
+    double y_end = 0.0;
+
+    std::cout << std::setw(8) << T << std::setw(12) << x_end << std::setw(12)
+              << y_end << " (Upadek)\n";
+  }
+}
+
+void zadanie12() {
+  int wyniki[2] = {0, 0}; // gracz, komputer
+  int wyborGracza;
+  std::vector<runda> historia;
+  while (wyniki[0] < 5 || wyniki[1] < 5) {
+    std::cout << "Wybierz ruch (1 - Kamień, 2 - Papier, 3 - Nożyce): ";
+    std::cin >> wyborGracza;
+    if (wyborGracza < 1 || wyborGracza > 3) {
+      std::cout << "Nieprawidłowy wybór. Spróbuj ponownie." << std::endl;
+      continue;
+    }
+    int wyborKomputera = losujRuch();
+    int wynik = wynikRundy(wyborGracza, wyborKomputera);
+    historia.push_back({wyborGracza, wyborKomputera, wynik});
+    if (wynik == 1) {
+      wyniki[0]++;
+      std::cout << "Wygrałeś rundę!" << std::endl;
+    } else if (wynik == -1) {
+      wyniki[1]++;
+      std::cout << "Przegrałeś rundę!" << std::endl;
+    } else {
+      std::cout << "Remis!" << std::endl;
+    }
+    wynikHistorii(historia);
+  }
+  if (wyniki[0] == 5) {
+    std::cout << "Gratulacje! Wygrałeś grę!" << std::endl;
+  } else {
+    std::cout << "Niestety, przegrałeś grę." << std::endl;
+  }
+}
 
 void zadanie13() {}
