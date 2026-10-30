@@ -121,3 +121,46 @@ void obliczPlytki(int szerSciany, int szerPlytki) {
             << odstep << " = " << (liczbaPlytek * szerPlytki + 2 * odstep)
             << std::endl;
 }
+
+void wypiszPunkty(double r) {
+  int max_val = static_cast<int>(r);
+  int lp = 1;
+
+  for (int x = -max_val; x <= max_val; x++) {
+    for (int y = -max_val; y <= max_val; y++) {
+      if (x * x + y * y <= r * r) {
+        std::cout << "Punkt " << lp << ": (" << x << ", " << y << ")\n";
+        lp++;
+      }
+    }
+  }
+}
+
+int pobierzDodatnia(const std::string &etykieta) {
+  int val = 0;
+  std::cout << etykieta;
+  while (!(std::cin >> val) || val <= 0) {
+    std::cout << "Wartość musi być liczbą dodatnią! Spróbuj ponownie: ";
+  }
+  return val;
+}
+
+void pobierzUlamek(int &licznik, int &mianownik, const std::string &nazwa) {
+  std::cout << "Podaj " << nazwa << " ulamek (licznik mianownik):\n";
+  while (!(std::cin >> licznik >> mianownik) || mianownik <= 0) {
+    std::cout << "Mianownik musi być liczbą dodatnią! Podaj ponownie (licznik "
+                 "mianownik): ";
+  }
+}
+
+bool czyAutomorficzna(int n) {
+  int kwadrat = n * n;
+  while (n > 0) {
+    if (n % 10 != kwadrat % 10) {
+      return false;
+    }
+    n /= 10;
+    kwadrat /= 10;
+  }
+  return true;
+}

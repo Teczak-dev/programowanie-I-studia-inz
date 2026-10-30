@@ -10,7 +10,7 @@ std::string pobierzWartosc(const std::string &komunikat) {
 
 int main() {
   int wybor;
-  std::cout << "Wybierz zadanie (1-8): ";
+  std::cout << "Wybierz zadanie (1-13): ";
   std::cin >> wybor;
   switch (wybor) {
   case 1:
@@ -36,6 +36,21 @@ int main() {
     break;
   case 8:
     zadanie8();
+    break;
+  case 9:
+    zadanie9();
+    break;
+  case 10:
+    zadanie10();
+    break;
+  case 11:
+    zadanie11();
+    break;
+  case 12:
+    zadanie12();
+    break;
+  case 13:
+    zadanie13();
     break;
   default:
     std::cout << "Nieprawidłowy wybór." << std::endl;

@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 int nwd(int a, int b);
 
@@ -22,3 +23,10 @@ double przelicz(double pln, double kurs);
 void reszta(int zaplata, int cena);
 
 void obliczPlytki(int szerSciany, int szerPlytki);
+
+void wypiszPunkty(double r);
+
+int pobierzDodatnia(const std::string &etykieta);
+void pobierzUlamek(int &licznik, int &mianownik, const std::string &nazwa);
+
+bool czyAutomorficzna(int n);

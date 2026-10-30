@@ -95,4 +95,81 @@ void zadanie7() {
   obliczPlytki(szerSciany, szerPlytki);
 }
 
-void zadanie8() {}
+void zadanie8() {
+  double r = 0.0;
+  std::cout << "Podaj r: ";
+
+  while (!(std::cin >> r) || r <= 0) {
+    std::cout << "Promień r musi być liczbą dodatnią! Podaj r ponownie: ";
+  }
+
+  wypiszPunkty(r);
+}
+
+void zadanie9() {
+  int l1 = 0, m1 = 0;
+  int l2 = 0, m2 = 0;
+  char operacja;
+
+  // Wczytanie danych bez powielania pętli
+  pobierzUlamek(l1, m1, "pierwszy");
+
+  std::cout << "Podaj operację (+, -, *, /): ";
+  while (!(std::cin >> operacja) || (operacja != '+' && operacja != '-' &&
+                                     operacja != '*' && operacja != '/')) {
+    std::cout << "Nieprawidłowa operacja! Podaj operację ponownie: ";
+  }
+
+  pobierzUlamek(l2, m2, "drugi");
+
+  int lWynik = 0, mWynik = 0;
+
+  switch (operacja) {
+  case '+':
+    lWynik = l1 * m2 + l2 * m1;
+    mWynik = m1 * m2;
+    break;
+  case '-':
+    lWynik = l1 * m2 - l2 * m1;
+    mWynik = m1 * m2;
+    break;
+  case '*':
+    lWynik = l1 * l2;
+    mWynik = m1 * m2;
+    break;
+  case '/':
+    lWynik = l1 * m2;
+    mWynik = m1 * l2;
+    break;
+  }
+
+  int dz = nwd(lWynik, mWynik);
+  lWynik /= dz;
+  mWynik /= dz;
+
+  if (mWynik < 0) {
+    lWynik = -lWynik;
+    mWynik = -mWynik;
+  }
+  std::cout << "Wynik: " << lWynik << "/" << mWynik << "\n";
+}
+
+void zadanie10() {
+  int n;
+  std::cout << "Podaj do ktorej liczby chcesz sprawdzić czy sa liczby "
+               "automorficzne: ";
+  while (!(std::cin >> n) || n < 0) {
+    std::cout << "Wartość musi być liczbą dodatnią! Spróbuj ponownie: ";
+  }
+  for (int i = 0; i <= n; i++) {
+    if (czyAutomorficzna(i)) {
+      std::cout << i << " ";
+    }
+  }
+}
+
+void zadanie11() {}
+
+void zadanie12() {}
+
+void zadanie13() {}
